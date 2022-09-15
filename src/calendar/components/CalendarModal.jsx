@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Modal from 'react-modal';
 import { addHours } from 'date-fns/esm';
 
@@ -11,7 +11,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import es from 'date-fns/locale/es';
 import { differenceInSeconds } from 'date-fns';
 
-import { useUiStore } from '../../hooks';
+import { useCalendarStore, useUiStore } from '../../hooks';
 
 registerLocale('es', es)
 
@@ -31,13 +31,14 @@ Modal.setAppElement('#root');
 
 export const CalendarModal = () => {
 
+    const { activeEvent } = useCalendarStore()
     const { isDateModalOpen, closeDateModal } = useUiStore()
 
     const [formSubmitted, setFormSubmitted] = useState(false)
 
     const [formValues, setFormValues] = useState({
-        title: 'felipe',
-        notes: 'Opazo',
+        title: '',
+        notes: '',
         start: new Date(),
         end: addHours(new Date(), 2)
     })
@@ -45,11 +46,19 @@ export const CalendarModal = () => {
     const titleClass = useMemo(() => {
         if (!formSubmitted) return ''
 
-        return ( formValues.title.length > 0 )
-        ? 'is-valid'
-        : 'is-invalid'
+        return (formValues.title.length > 0)
+            ? 'is-valid'
+            : 'is-invalid'
 
     }, [formValues.title, formSubmitted])
+
+    useEffect(() => {
+        if ( activeEvent !== null) {
+            setFormValues({ ...activeEvent })
+        }
+
+    }, [activeEvent])
+
 
     const onInputChanged = ({ target }) => {
         setFormValues({
@@ -135,13 +144,13 @@ export const CalendarModal = () => {
                     <label>Titulo y notas</label>
                     <input
                         type="text"
-                        className={`form-control ${ titleClass }`}
+                        className={`form-control ${titleClass}`}
                         placeholder="Título del evento"
                         name="title"
                         autoComplete="off"
                         value={formValues.title}
                         onChange={onInputChanged}
-                        // required
+                    // required
                     />
                     <small id="emailHelp" className="form-text text-muted">Una descripción corta</small>
                 </div>
@@ -155,7 +164,7 @@ export const CalendarModal = () => {
                         name="notes"
                         value={formValues.notes}
                         onChange={onInputChanged}
-                        // required
+                    // required
                     ></textarea>
                     <small id="emailHelp" className="form-text text-muted">Información adicional</small>
                 </div>
