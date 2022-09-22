@@ -2,9 +2,6 @@ import { useEffect, useMemo, useState } from 'react';
 import Modal from 'react-modal';
 import { addHours } from 'date-fns/esm';
 
-import Swal from 'sweetalert2'
-import 'sweetalert2/dist/sweetalert2.min.css'
-
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -12,6 +9,8 @@ import es from 'date-fns/locale/es';
 import { differenceInSeconds } from 'date-fns';
 
 import { useCalendarStore, useUiStore } from '../../hooks';
+
+import { showSuccessAlert, showErrorAlert  } from '../../helpers'
 
 registerLocale('es', es)
 
@@ -31,7 +30,7 @@ Modal.setAppElement('#root');
 
 export const CalendarModal = () => {
 
-    const { activeEvent } = useCalendarStore()
+    const { activeEvent, startSavingEvent } = useCalendarStore()
     const { isDateModalOpen, closeDateModal } = useUiStore()
 
     const [formSubmitted, setFormSubmitted] = useState(false)
@@ -78,22 +77,24 @@ export const CalendarModal = () => {
         closeDateModal()
     }
 
-    const onSubmit = (event) => {
+    const onSubmit = async (event) => {
         event.preventDefault()
         setFormSubmitted(true)
 
         const difference = differenceInSeconds(formValues.end, formValues.start)
 
         if (isNaN(difference) || difference <= 0) {
-            Swal.fire('Fechas incorrectas', 'Revisar las fechas ingresadas', 'error')
+            showErrorAlert('Fechas incorrectas', 'Revisar las fechas ingresadas')
             return
         }
 
         if (formValues.title.length <= 0) return
 
-        // TODO:
-        // cerrar modal
-        // remover errores en pantalla
+        // TODO: llegar al backend 
+        await startSavingEvent( formValues )
+        closeDateModal()
+        setFormSubmitted(false)
+        showSuccessAlert('Éxito', 'Eventos actualizados')
     }
 
     return (

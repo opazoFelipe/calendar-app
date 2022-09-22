@@ -5,7 +5,7 @@ import { onPreviousCreateNewEvent } from "../../store"
 
 export const FabAddNew = () => {
 
-    const { setActiveEvent } = useCalendarStore()
+    const { } = useCalendarStore()
     const { openDateModal } = useUiStore()
 
     const dispatch = useDispatch()
