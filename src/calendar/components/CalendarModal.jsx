@@ -10,7 +10,7 @@ import { differenceInSeconds } from 'date-fns';
 
 import { useCalendarStore, useUiStore } from '../../hooks';
 
-import { showSuccessAlert, showErrorAlert  } from '../../helpers'
+import { showErrorAlert, showSuccessAlert } from '../../alerts/showAlert';
 
 registerLocale('es', es)
 

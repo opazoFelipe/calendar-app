@@ -7,6 +7,8 @@ import { useState } from 'react'
 
 import { useCalendarStore, useUiStore } from '../../hooks'
 
+import { AlertComponent } from '../../alerts/AlertComponent';
+
 export const CalendarPage = () => {
 
     const { events, setActiveEvent } = useCalendarStore()
@@ -58,6 +60,8 @@ export const CalendarPage = () => {
             <CalendarModal />
             <FabAddNew />
             <FabDelete />
+
+            <AlertComponent />
         </>
     )
 }
