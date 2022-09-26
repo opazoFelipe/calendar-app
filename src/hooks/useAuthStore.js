@@ -20,7 +20,6 @@ export const useAuthStore = () => {
 
     // Proceso de login, accion asincrona
     const startLogin = async ({ email, password }) => {
-        console.log('starting login')
         dispatch(onChecking())
 
         try {
