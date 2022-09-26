@@ -1,17 +1,14 @@
-import { addHours } from "date-fns"
 import { useDispatch } from "react-redux"
-import { useCalendarStore, useUiStore } from "../../hooks"
-import { onPreviousCreateNewEvent } from "../../store"
+import { useUiStore } from "../../hooks"
+import { onBeforeAddNewEvent } from "../../store"
 
 export const FabAddNew = () => {
 
-    const { } = useCalendarStore()
     const { openDateModal } = useUiStore()
-
     const dispatch = useDispatch()
 
     const handleClickNew = () => {
-        dispatch( onPreviousCreateNewEvent() )
+        dispatch(onBeforeAddNewEvent())
         openDateModal()
     }
 

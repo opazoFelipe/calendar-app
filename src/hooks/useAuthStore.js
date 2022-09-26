@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
 import { calendarApi } from "../api"
-import { onChecking, onLogin, onLogout, onClearErrorMessage } from '../store'
+import { onChecking, onLogin, onLogout, onClearErrorMessage, onLogoutCalendar } from '../store'
 
 /**
  * Aqui se despachan los reducer del store del auth 
@@ -20,6 +20,7 @@ export const useAuthStore = () => {
 
     // Proceso de login, accion asincrona
     const startLogin = async ({ email, password }) => {
+        console.log('starting login')
         dispatch(onChecking())
 
         try {
@@ -71,6 +72,7 @@ export const useAuthStore = () => {
 
     const startLogout = () => {
         localStorage.clear()
+        dispatch(onLogoutCalendar())
         dispatch(onLogout())
     }
 

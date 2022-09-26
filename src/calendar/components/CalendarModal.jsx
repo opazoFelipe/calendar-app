@@ -10,7 +10,7 @@ import { differenceInSeconds } from 'date-fns';
 
 import { useCalendarStore, useUiStore } from '../../hooks';
 
-import { showErrorAlert, showSuccessAlert } from '../../alerts/showAlert';
+import { showErrorAlert } from '../../alerts/showAlert';
 
 registerLocale('es', es)
 
@@ -54,8 +54,14 @@ export const CalendarModal = () => {
     useEffect(() => {
         if ( activeEvent !== null) {
             setFormValues({ ...activeEvent })
+        } else {
+            setFormValues({
+                title: '',
+                notes: '',
+                start: new Date(),
+                end: addHours(new Date(), 2)
+            })
         }
-
     }, [activeEvent])
 
 
@@ -94,7 +100,6 @@ export const CalendarModal = () => {
         await startSavingEvent( formValues )
         closeDateModal()
         setFormSubmitted(false)
-        showSuccessAlert('Éxito', 'Eventos actualizados')
     }
 
     return (
