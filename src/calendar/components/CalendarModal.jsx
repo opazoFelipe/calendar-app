@@ -11,6 +11,7 @@ import { differenceInSeconds } from 'date-fns';
 import { useCalendarStore, useUiStore } from '../../hooks';
 
 import { showErrorAlert } from '../../alerts/showAlert';
+import { getEnvVariables } from '../../helpers';
 
 registerLocale('es', es)
 
@@ -26,7 +27,14 @@ const customStyles = {
 };
 
 // Se obtiene desde el archivo index.html del root del proyecto (<div id="root"></div>)
-Modal.setAppElement('#root');
+
+/**
+ * La linea de la condición de las variables de entorno es para que este componente no de error en el testing del AppRouter o del mismo componente
+ * 
+ */
+if (getEnvVariables().VITE_MODE !== 'test') {
+    Modal.setAppElement('#root');
+}
 
 export const CalendarModal = () => {
 
