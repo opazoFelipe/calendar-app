@@ -29,7 +29,7 @@ const customStyles = {
 // Se obtiene desde el archivo index.html del root del proyecto (<div id="root"></div>)
 
 /**
- * La linea de la condición de las variables de entorno es para que este componente no de error en el testing del AppRouter o del mismo componente
+ * La linea de la condición de las variables de entorno (getEnvVariables().VITE_MODE !== 'test') es para que este componente no de error en el testing del AppRouter o del mismo componente
  * 
  */
 if (getEnvVariables().VITE_MODE !== 'test') {
